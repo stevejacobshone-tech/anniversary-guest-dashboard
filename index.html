@@ -1,0 +1,517 @@
+<!doctype html>
+<html lang="en" data-theme="dark"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>First Death Anniversary · Guest Dashboard</title>
+<style>
+:root{color-scheme:light;--bg:#f8fafc;--ink:#0f172a;--muted:#475569;--line:#e2e8f0;--blue:#2563eb;--deep:#1d4ed8;--green:#047857;--surface:#fff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 "Fira Sans","Segoe UI",system-ui,sans-serif}
+main{width:min(1160px,calc(100% - 32px));margin:0 auto}.topbar{border-bottom:1px solid var(--line);background:var(--surface)}.topbar-inner{width:min(1160px,calc(100% - 32px));margin:auto;min-height:62px;display:flex;justify-content:space-between;align-items:center;gap:12px}.brand{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:750}.brand-icon{display:grid;place-items:center;width:32px;height:32px;border-radius:9px;background:#eff6ff;color:var(--deep)}svg{width:18px;height:18px;flex:none}
+header{padding:19px 0 13px}.eyebrow{font-size:12px;letter-spacing:.13em;font-weight:750;color:var(--deep)}h1{font-size:clamp(27px,4vw,39px);line-height:1.12;letter-spacing:-.045em;margin:3px 0 0;text-wrap:balance}h2{font-size:17px;letter-spacing:-.02em;margin:0 0 10px}
+button,input,select{font:inherit}button{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:44px;border:1px solid var(--line);border-radius:9px;padding:7px 12px;background:var(--surface);color:var(--ink);cursor:pointer;font-size:14px;font-weight:700;transition:background-color .18s,border-color .18s}button:hover{background:#f1f5f9}.primary{background:var(--blue);color:white;border-color:var(--blue);white-space:nowrap}.primary:hover{background:var(--deep);border-color:var(--deep)}:focus-visible{outline:3px solid var(--blue);outline-offset:3px}
+.metrics,.charts{display:grid;gap:12px}.metrics{grid-template-columns:repeat(3,minmax(0,1fr))}.charts{grid-template-columns:1.35fr 1fr;margin-top:12px}.card{min-width:0;border:1px solid var(--line);border-radius:14px;background:var(--surface);padding:13px 16px}.metric{display:flex;align-items:center;justify-content:space-between;gap:8px}.metric:first-child{background:#eff6ff;border-color:#dbeafe}.metric span,.muted{color:var(--muted);font-size:13px}.metric strong{display:block;font:700 clamp(22px,4vw,34px)/1.12 "Fira Code",ui-monospace,monospace;letter-spacing:-.08em}.metric-icon{color:var(--blue);display:grid;place-items:center;width:33px;height:33px;border-radius:9px;background:#eff6ff}.metric:first-child .metric-icon{background:#dbeafe}
+.chartrow{display:grid;grid-template-columns:minmax(120px,1.25fr) minmax(24px,1fr) 28px;align-items:center;gap:8px;margin:5px 0;font-size:13px}.track{height:7px;background:#edf2fb;border-radius:8px;overflow:hidden}.fill{height:100%;border-radius:inherit;background:var(--blue)}.arrival{display:flex;align-items:center;justify-content:space-evenly;gap:12px;min-height:128px}.ring{width:114px;aspect-ratio:1;border-radius:50%;position:relative;flex:none;display:grid;place-items:center}.ring:after{content:'';position:absolute;inset:17%;border-radius:50%;background:white}.ring strong{z-index:1;font:700 23px ui-monospace,monospace}.legend{list-style:none;padding:0;margin:0;display:grid;gap:8px;font-size:13px}.legend li{display:flex;align-items:center;gap:7px}.legend strong{margin-left:auto;padding-left:6px}.dot{width:9px;height:9px;border-radius:50%;flex:none}
+.list{margin-top:12px}.listhead{display:flex;gap:9px;align-items:center;justify-content:space-between;flex-wrap:wrap}.listhead h2{margin:0}.tools{display:flex;gap:8px;flex-wrap:wrap}input,select{border:1px solid #cbd5e1;border-radius:9px;background:white;padding:7px 10px;min-width:0;min-height:44px;color:inherit}.scroll{max-height:clamp(135px,calc(100dvh - 545px),300px);overflow:auto;margin-top:8px;border:1px solid var(--line);border-radius:9px}table{border-collapse:collapse;width:100%;text-align:left;font-size:13px}th,td{padding:7px 9px;border-bottom:1px solid var(--line);overflow-wrap:anywhere}th{background:#f1f5f9;position:sticky;top:0;color:var(--muted)}td:first-child{font-weight:650}.num{text-align:right;font-variant-numeric:tabular-nums}.muted{margin:8px 0 12px}
+dialog{border:1px solid var(--line);border-radius:16px;width:min(440px,calc(100% - 28px));padding:22px;color:inherit;box-shadow:0 20px 64px #0f172a33}dialog::backdrop{background:#0f172a70}form{display:grid;gap:10px}label{display:grid;gap:4px;font-weight:650;font-size:14px}.form-pair{display:grid;grid-template-columns:1fr 1.5fr;gap:10px}.actions{display:flex;justify-content:flex-end;gap:8px;margin-top:5px}.error{color:#a51e32;margin:0}.sr{position:absolute;clip-path:inset(50%)}
+@media(max-width:680px){.charts{grid-template-columns:1fr}.metric{padding:9px;align-items:start}.metric span{font-size:12px}.metric-icon{display:none}.card:not(.metric){padding:12px}.listhead,.tools{width:100%}.tools input{flex:1;width:110px}th,td{padding:6px;font-size:12px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important}}
+
+[hidden]{display:none!important}.nav{display:flex;gap:6px;margin:0 0 12px;border-bottom:1px solid var(--line)}.nav button{background:transparent;border:0;border-radius:0;border-bottom:3px solid transparent;color:var(--muted)}.nav button[aria-selected="true"]{color:var(--deep);border-bottom-color:var(--blue)}.chip{display:inline-flex;align-items:center;gap:6px;border-radius:99px;padding:3px 8px;background:#f1f5f9;color:var(--ink);font-weight:650}.chip .dot{width:8px;height:8px}.edit{min-height:44px;padding:5px 9px}.scroll{max-height:clamp(230px,calc(100dvh - 290px),680px)}.list{margin-top:0}.chart-note{font-size:13px;color:var(--muted);margin:5px 0 0}.charts.secondary{margin-bottom:12px}.chartrow .num{white-space:nowrap}.chartrow{grid-template-columns:minmax(120px,1.25fr) minmax(24px,1fr) 34px}
+.metrics{grid-template-columns:repeat(4,minmax(0,1fr))}@media(max-width:600px){.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* Event folio */
+:root{color-scheme:dark;--bg:#101012;--surface:#17171b;--raised:#202025;--ink:#f5f2ee;--muted:#a9a6b0;--line:#333239;--blue:#dfc397;--deep:#f4d9ae;--action:#302519;--wash:#25211e;--chip:#29272f}
+:root[data-theme="light"]{color-scheme:light;--bg:#f5f2ec;--surface:#fffdf9;--raised:#f0ebe3;--ink:#252119;--muted:#625b54;--line:#dcd4ca;--blue:#785426;--deep:#654018;--action:#fff;--wash:#f2e9dc;--chip:#eee8e0}
+body{font-family:Inter,"Segoe UI",system-ui,sans-serif}main{width:auto;max-width:1420px;margin:0 auto;padding:22px 28px 0}.shell{display:grid;grid-template-columns:216px minmax(0,1fr);min-height:100dvh;transition:grid-template-columns .26s ease}.shell.compact{grid-template-columns:72px minmax(0,1fr)}.sidebar{background:var(--surface);border-right:1px solid var(--line);padding:20px 12px;position:sticky;top:0;height:100dvh;display:flex;flex-direction:column;gap:24px}.sidebar .brand{padding:0 4px;min-height:44px}.brand-icon,.metric-icon{background:var(--wash)!important;color:var(--blue);flex:none}.sidebar .nav{display:grid;border:0;margin:0}.sidebar .nav [role=tablist]{display:grid;gap:6px}.sidebar .nav button{justify-content:start;border:1px solid transparent;border-radius:8px;white-space:nowrap}.sidebar .nav button[aria-selected=true]{background:var(--wash);border-color:var(--line);color:var(--blue)}.sidebar .sidebar-end{margin-top:auto}.compact .nav-label{display:none}.topbar{background:transparent;border-bottom:1px solid var(--line)}.topbar-inner{width:auto;padding:0 28px;min-height:58px}.topbar-title{font-size:13px;color:var(--muted)}.top-actions{display:flex;gap:8px}header{padding:3px 0 17px;display:flex;align-items:end;justify-content:space-between;gap:12px}.eyebrow{color:var(--blue)}h1{font:500 clamp(30px,4vw,47px)/1.08 Georgia,serif;letter-spacing:-.045em}.subhead{color:var(--muted);font-size:13px;margin:6px 0 0}.metrics{grid-template-columns:repeat(4,minmax(0,1fr));gap:0;background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden}.metric,.metric:first-child{background:transparent;border:0;border-radius:0;border-right:1px solid var(--line);padding:12px 15px}.metric:first-child{background:var(--wash)}.metric:nth-child(4n){border-right:0}.metric:nth-child(n+5){border-top:1px solid var(--line)}.metric strong{font:650 clamp(21px,3vw,31px)/1.2 Inter,"Segoe UI",sans-serif;letter-spacing:-.055em}.metric span{font-size:12px}.metric-icon{display:none}.charts{gap:10px;grid-template-columns:1.35fr 1fr}.card{border-radius:10px}.card h2{font-weight:650}.card .chart-note{margin-top:8px}.track,th{background:var(--raised)}.ring:after{background:var(--surface)}.chip{background:var(--chip)}.chip[data-rsvp=Confirmed]{color:#6bd9aa}.chip[data-rsvp=Declined]{color:#f0a4a4}.chip[data-rsvp=Pending]{color:#e9ca8d}[data-theme=light] .chip[data-rsvp=Confirmed]{color:#176343}[data-theme=light] .chip[data-rsvp=Declined]{color:#942c39}[data-theme=light] .chip[data-rsvp=Pending]{color:#77520f}button:hover,tbody tr:hover{background:var(--raised)}.primary{color:var(--action)}.primary:hover{color:var(--action)}input,select,textarea{color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px;font:inherit;min-width:0}textarea{resize:vertical}.listhead{align-items:start}.tools{margin-top:4px}.toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:8px 0}.toolbar button:disabled{opacity:.55;cursor:default}.scroll{max-height:calc(100dvh - 270px);min-height:150px}.name-button{border:0;background:transparent;text-align:left;padding:4px;justify-content:start}.toast{position:fixed;z-index:3;right:20px;bottom:20px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 10px;display:flex;align-items:center;gap:10px;box-shadow:0 12px 36px #0003;max-width:calc(100vw - 40px)}.activity{margin:0;padding:0;list-style:none}.activity li{display:flex;justify-content:space-between;gap:8px;border-bottom:1px solid var(--line);padding:7px 0;font-size:13px}.activity time{color:var(--muted);white-space:nowrap}.drawer{position:fixed;inset:0 0 0 auto;margin:0;height:100dvh;max-height:none;width:min(450px,100%);max-width:none;border-radius:0;overflow:auto}.drawer[open]{animation:slide-in .25s ease-out}.form-pair{grid-template-columns:repeat(2,minmax(0,1fr))}.error{color:#e78992}[data-theme=light] .error{color:#9e2338}.detail-top{display:flex;justify-content:space-between;gap:8px;align-items:center}.danger{color:#e78992}[data-theme=light] .danger{color:#9e2338}dialog{background:var(--surface);max-height:calc(100dvh - 28px);overflow:auto}[role=tabpanel]:not([hidden]){animation:appear .19s ease-out}.toolbar input[type=checkbox],td input[type=checkbox]{min-height:0;width:16px;height:16px;margin:0 6px 0 0;vertical-align:middle}.toolbar label{padding:8px 0}.tools input[type=search]{min-width:155px}@media(max-width:680px){.tools input[type=search]{flex-basis:100%}.tools select{flex:1}.toolbar label{width:100%}.scroll td:first-child{grid-column:1/-1}.scroll td:last-child{grid-column:1/-1}}@keyframes slide-in{from{transform:translateX(20px);opacity:0}to{transform:none;opacity:1}}@keyframes appear{from{opacity:.6;transform:translateY(3px)}to{opacity:1;transform:none}}
+@media(max-width:930px){.shell,.shell.compact{grid-template-columns:65px minmax(0,1fr)}.nav-label{display:none}.sidebar{padding-inline:8px}.sidebar .nav button{justify-content:center}.tools{width:100%}}
+@media(max-width:680px){.shell,.shell.compact{display:block}.sidebar{position:static;height:auto;border:0;border-bottom:1px solid var(--line);padding:4px 12px}.sidebar .brand,.sidebar-end{display:none}.sidebar .nav [role=tablist]{display:flex}.sidebar .nav button{padding:5px 10px}.nav-label,.compact .nav-label{display:inline}.topbar-inner{padding:0 12px}.topbar-title{font-size:12px}.top-actions{gap:5px}main{padding:15px 12px 0}.charts{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.metric:nth-child(2n){border-right:0}.metric:nth-child(n+3){border-top:1px solid var(--line)}header{align-items:start;flex-direction:column}.scroll{max-height:none;border:0;overflow:visible}table,tbody{display:block}thead{position:absolute;clip-path:inset(50%)}tr{display:grid;grid-template-columns:1fr 1fr;gap:4px 8px;border:1px solid var(--line);border-radius:9px;padding:8px;margin-bottom:8px}td,td.num{border:0;padding:2px;text-align:left;min-width:0}td[data-label]::before{content:attr(data-label) " · ";color:var(--muted)}td[colspan]{grid-column:1/-1}.tools input{flex:1}.tools select{max-width:100%}.drawer{border-radius:12px 12px 0 0;inset:auto 0 0;height:auto;max-height:92dvh}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{transition:none!important;animation:none!important}}
+.menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.menu-card h3{color:var(--blue);font-size:15px;margin:0 0 6px}.menu-card ul{list-style:none;margin:0;padding:0}.menu-card li{padding:8px 0;border-top:1px solid var(--line)}@media(max-width:680px){.menu-grid{grid-template-columns:1fr}.sidebar .nav button{gap:5px;padding-inline:8px}}#menu-panel{padding-bottom:max(36px,env(safe-area-inset-bottom))}.menu-card{border-top:3px solid var(--group-color)}.menu-card:first-child{--group-color:#d49d59}.menu-card:last-child{--group-color:#61b5a2}[data-theme=light] .menu-card:first-child{--group-color:#895417}[data-theme=light] .menu-card:last-child{--group-color:#176d5c}.menu-card h3{color:var(--group-color)}.menu-card li{display:flex;align-items:center;justify-content:space-between;gap:8px}.menu-card li span{overflow-wrap:anywhere}.menu-card header{padding:0 0 6px;align-items:center;flex-direction:row}.menu-actions{display:flex;gap:6px;flex:none}.menu-actions button{padding-inline:9px}.menu-card ul:empty::before{content:'No dishes yet';display:block;padding:12px 0;color:var(--muted)}.menu-card .menu-add{font-size:13px}@media(max-width:420px){.menu-card li{align-items:start}.menu-actions button{padding-inline:6px;font-size:12px}}
+@media(max-width:420px){.menu-card header,.menu-card li{flex-wrap:wrap}.menu-actions{flex-wrap:wrap}}.menu-grid{margin-top:10px}.menu-card{--group-color:#b09add}[data-theme=light] .menu-card{--group-color:#674e9b}.menu-card:first-child{--group-color:#d49d59}.menu-card:nth-child(2){--group-color:#61b5a2}[data-theme=light] .menu-card:first-child{--group-color:#895417}[data-theme=light] .menu-card:nth-child(2){--group-color:#176d5c}.menu-card:last-child:not(:nth-child(2)){--group-color:#b09add}[data-theme=light] .menu-card:last-child:not(:nth-child(2)){--group-color:#674e9b}.inline-row td{padding:12px}.inline-form{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.inline-form .actions,.inline-form .error,.inline-form .notes{grid-column:1/-1}.guest-actions{display:flex;flex-wrap:wrap;gap:4px}.inline-form input,.inline-form select,.inline-form textarea{width:100%}@media(max-width:680px){.inline-row{display:block}.inline-row td{display:block}.inline-form{grid-template-columns:repeat(2,minmax(0,1fr))}}</style>
+<div class="shell" id="shell"><aside class="sidebar"><div class="brand"><span class="brand-icon" aria-hidden="true">G</span><span class="nav-label">Guestlist</span></div><nav class="nav" aria-label="Dashboard sections"><div role="tablist" aria-label="Guest planner views"><button id="overview-tab" type="button" role="tab" aria-selected="true" aria-controls="overview" aria-label="Overview"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 3h8v8H3zM14 3h7v5h-7zM3 14h8v7H3zM14 11h7v10h-7z"/></svg><span class="nav-label">Overview</span></button><button id="list-tab" type="button" role="tab" aria-selected="false" aria-controls="list-panel" tabindex="-1" aria-label="Guest list"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13M3 6h2M3 12h2M3 18h2"/></svg><span class="nav-label">Guest list</span></button><button id="menu-tab" type="button" role="tab" aria-selected="false" aria-controls="menu-panel" tabindex="-1" aria-label="Food menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 3v6a3 3 0 0 0 6 0V3M7 3v18M18 21V3c-3 2-4 6-4 10h4"/></svg><span class="nav-label">Food menu</span></button></div></nav><div class="sidebar-end"><button id="collapse" type="button" aria-label="Toggle sidebar" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 5h16v14H4zM9 5v14"/></svg><span class="nav-label">Collapse</span></button></div></aside>
+<div><div class="topbar"><div class="topbar-inner"><div class="topbar-title">Event workspace <span aria-hidden="true">/</span> <strong id="crumb">Overview</strong></div><div class="top-actions"><button id="theme" type="button" aria-label="Switch to light theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3M5 5l2 2m10 10 2 2M5 19l2-2M17 7l2-2"/></svg></button><button id="add" class="primary" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Add guest</button></div></div></div>
+<main><header><div><div class="eyebrow">Remembrance · Guest planner</div><h1>First Death Anniversary</h1><p id="event-line" class="subhead"></p></div><button id="event-edit" type="button">Event details</button></header>
+<div id="overview" role="tabpanel" aria-labelledby="overview-tab">
+<section class="metrics" aria-label="Guest totals"><div class="metric"><div><span>Listed guests</span><strong id="total"></strong></div></div><div class="metric"><div><span>Expected guests</span><strong id="expected"></strong></div></div><div class="metric"><div><span>Confirmed guests</span><strong id="confirmed"></strong></div></div><div class="metric"><div><span>Pending confirmations</span><strong id="pending"></strong></div></div><div class="metric"><div><span>Declined guests</span><strong id="declined"></strong></div></div><div class="metric"><div><span>Attended</span><strong id="checked"></strong></div></div><div class="metric"><div><span>Capacity after confirmed</span><strong id="capacity"></strong></div></div><div class="metric"><div><span>Guest entries</span><strong id="entries"></strong></div></div></section>
+<p class="chart-note">Expected guests uses headcount × attendance probability. Charts show listed headcounts.</p>
+<section class="charts" aria-label="Guest charts">
+<div class="card"><h2>Guests by category</h2><div id="bars"></div><p id="groups" class="chart-note"></p></div>
+<div class="card"><h2>Arrival location</h2><div class="arrival"><div id="ring" class="ring" aria-hidden="true"><strong id="ringTotal"></strong></div><ul id="legend" class="legend"></ul></div></div>
+</section>
+<section class="charts secondary" aria-label="Planning charts"><div class="card"><h2>Headcount by venue</h2><div id="venue"></div><p class="chart-note">Guests going to both venues count once at each venue.</p></div><div class="card"><h2>Party sizes</h2><div id="sizes"></div><p class="chart-note">Number of guest or household entries per party size.</p></div></section><section class="charts secondary"><div class="card"><h2>Confirmation breakdown</h2><div id="rsvp-bars"></div></div><div class="card"><h2>Recent activity</h2><ul id="activity" class="activity"></ul></div></section>
+</div>
+<section class="card list" id="list-panel" role="tabpanel" aria-labelledby="list-tab" hidden><div class="listhead"><h2>Guest list</h2><div class="tools"><input id="search" type="search" aria-label="Search guests" placeholder="Search guests"><select id="filter" aria-label="Filter by category"><option value="">All categories</option></select><select id="rsvp-filter" aria-label="Filter by confirmation"><option value="">Any confirmation</option><option>Unrecorded</option><option>Pending</option><option>Confirmed</option><option>Declined</option></select><select id="invited-filter" aria-label="Filter by invitation"><option value="">Any invitation</option><option value="yes">Invited</option><option value="no">Not invited</option><option value="unknown">Unrecorded</option></select><select id="sort" aria-label="Sort guests"><option value="original">List order</option><option value="name">Name A–Z</option><option value="rsvp">Confirmation status</option><option value="recent">Recently added</option><option value="size">Largest party</option></select><button id="export" type="button">Export CSV</button></div></div>
+<div class="toolbar"><label><span><input type="checkbox" id="select-visible"> Select visible</span></label><button id="bulk-confirm" type="button" disabled>Confirm</button><button id="bulk-check" type="button" disabled>Mark attended</button><span id="result-count" class="muted" aria-live="polite"></span></div><div class="scroll" tabindex="0" aria-label="Scrollable guest list"><table><thead><tr><th>Guest or household</th><th>Category</th><th>Arrival</th><th class="num">Guests</th><th class="num" scope="col">Probability</th><th scope="col">Confirmation</th><th scope="col">Actions</th></tr></thead><tbody id="rows"></tbody></table></div></section>
+<p class="muted">Additions and edits are saved in this browser. Export CSV to keep a copy of the full list.</p>
+<section id="menu-panel" role="tabpanel" aria-labelledby="menu-tab" hidden><div class="detail-top"><h2>Food menu</h2><button type="button" id="add-group">+ Add group</button></div><div class="menu-grid"><article class="card menu-card"><h3>Welcome & starters</h3><ul><li>Mint lime</li><li>Appam</li><li>Tharavu curry</li><li>Cutlet</li><li>Porque &amp; mustard sauce</li></ul></article><article class="card menu-card"><h3>Main meal & dessert</h3><ul><li>Choru</li><li>Angamaly manga curry</li><li>Beef ullathu</li><li>Chicken kondaattam</li><li>Thoran</li><li>Achaar</li><li>Chammanthi podi</li><li>Pineapple</li><li>Fruit salad with Ice cream</li></ul></article></div></section></main></div></div>
+<dialog class="drawer" id="modal" aria-labelledby="formTitle"><h2 id="formTitle">Add guest</h2><form id="form">
+<label>Guest or household<input name="guest" required maxlength="150" autofocus></label>
+<label>Category<input name="category" required list="categories" maxlength="100"><datalist id="categories"></datalist></label>
+<div class="form-pair"><label>Guest count<input name="count" type="number" min="1" max="9999" value="1" required></label>
+<label>Arrival location<select name="arrival" required id="arrival"></select></label></div>
+<label>Attendance probability (%)<input name="probability" type="number" min="0" max="100" step="any" value="100" required></label>
+<div class="form-pair"><label>Confirmation<select name="rsvp"><option>Unrecorded</option><option>Pending</option><option>Confirmed</option><option>Declined</option></select></label><label>Invitation<select name="invitation"><option>Unrecorded</option><option value="To send">Not invited</option><option value="Sent">Invited</option></select></label></div>
+<div class="form-pair"><label>Email<input name="email" type="email" maxlength="150"></label><label>Phone<input name="phone" type="tel" maxlength="50"></label></div>
+<div class="form-pair"><label>Table assignment<input name="table" maxlength="50"></label><label>Attended guests<input name="checked" type="number" min="0" value="0"></label></div>
+<label>Notes<textarea name="notes" rows="2" maxlength="1000"></textarea></label>
+<p id="error" class="error" role="alert" hidden></p>
+<div class="actions"><button type="button" class="danger" id="remove" hidden>Remove</button><button type="button" id="cancel">Cancel</button><button type="submit" class="primary" id="saveGuest">Add guest</button></div>
+</form></dialog><div class="sr" id="notice" role="status"></div>
+<dialog id="event-dialog" aria-labelledby="event-title"><h2 id="event-title">Event details</h2><form id="event-form"><label>Event date<input name="date" type="date"></label><label>Venue<input name="venue" maxlength="100"></label><label>Capacity<input name="capacity" type="number" min="1" max="1000000"></label><p id="event-error" class="error" hidden role="alert"></p><div class="actions"><button type="button" id="event-cancel">Cancel</button><button type="submit" class="primary">Save event</button></div></form></dialog>
+<dialog id="remove-dialog" aria-labelledby="remove-title"><h2 id="remove-title">Remove guest?</h2><p id="remove-copy"></p><div class="actions"><button id="keep" type="button">Keep guest</button><button id="remove-confirm" type="button" class="danger">Remove guest</button></div></dialog>
+<div id="toast" class="toast" hidden><span id="toast-message" role="status"></span><button id="undo" type="button" hidden>Undo</button><button id="toast-close" type="button" aria-label="Dismiss notification">Close</button></div>
+<dialog id="dish-dialog" aria-labelledby="dish-title"><h2 id="dish-title">Edit dish</h2><form id="dish-form"><label>Dish name<input name="dish" maxlength="120" required autofocus></label><label>Menu group<select name="group"><option value="0">Welcome &amp; starters</option><option value="1">Main meal &amp; dessert</option></select></label><p id="dish-error" class="error" role="alert" hidden></p><div class="actions"><button id="dish-remove" type="button" class="danger">Remove</button><button id="dish-cancel" type="button">Cancel</button><button class="primary" type="submit">Save dish</button></div></form></dialog>
+<dialog id="group-dialog" aria-labelledby="group-title"><h2 id="group-title">Rename menu group</h2><form id="group-form"><label>Group name<input name="title" maxlength="80" required autofocus></label><div class="actions"><button type="button" id="group-cancel">Cancel</button><button type="submit" class="primary">Save name</button></div></form></dialog>
+<script id="initial" type="application/json">[{"category": "Neighbours", "guest": "Sheela Aunty", "count": 1, "status": "Listed", "source": "IMG_9148.jpeg / Left", "arrival": "House", "probability": 100.0}, {"category": "Neighbours", "guest": "George Uncle", "count": 1, "status": "Listed", "source": "IMG_9148.jpeg / Left", "arrival": "House", "probability": 100.0}, {"category": "Neighbours", "guest": "Shinu Chechi", "count": 1, "status": "Listed", "source": "IMG_9148.jpeg / Left", "arrival": "House", "probability": 100.0}, {"category": "Neighbours", "guest": "Ishaan", "count": 1, "status": "Listed", "source": "IMG_9148.jpeg / Left", "arrival": "House", "probability": 100.0}, {"category": "Neighbours", "guest": "Isha Mary", "count": 1, "status": "Listed", "source": "IMG_9148.jpeg / Left", "arrival": "House", "probability": 100.0}, {"category": "Neighbours", "guest": "Sudhakaran Uncle", "count": 1, "status": "Listed", "source": "IMG_9148.jpeg / Left", "arrival": "House", "probability": 100.0}, {"category": "Neighbours", "guest": "Usha Aunty", "count": 1, "status": "Listed", "source": "IMG_9148.jpeg / Left", "arrival": "House", "probability": 100.0}, {"category": "Neighbours", "guest": "Hari Chettan", "count": 1, "status": "Listed", "source": "IMG_9148.jpeg / Left", "arrival": "House", "probability": 100.0}, {"category": "Neighbours", "guest": "Sindhu Chechi", "count": 1, "status": "Listed", "source": "IMG_9148.jpeg / Left", "arrival": "House", "probability": 100.0}, {"category": "Neighbours", "guest": "Lelamma Aunty", "count": 1, "status": "Listed", "source": "IMG_9148.jpeg / Left", "arrival": "House", "probability": 100.0}, {"category": "Neighbours", "guest": "Thomas Uncle", "count": 1, "status": "Listed", "source": "IMG_9148.jpeg / Left", "arrival": "House", "probability": 100.0}, {"category": "Neighbours", "guest": "Binu", "count": 1, "status": "Listed", "source": "IMG_9148.jpeg / Left", "arrival": "House", "probability": 100.0}, {"category": "Neighbours", "guest": "Binu's wife", "count": 1, "status": "Listed", "source": "IMG_9148.jpeg / Left", "arrival": "House", "probability": 100.0}, {"category": "Neighbours", "guest": "Viswan Chettan", "count": 1, "status": "Listed", "source": "IMG_9148.jpeg / Left", "arrival": "House", "probability": 100.0}, {"category": "Neighbours", "guest": "Viswan Chettan's wife", "count": 1, "status": "Listed", "source": "IMG_9148.jpeg / Left", "arrival": "House", "probability": 100.0}, {"category": "Neighbours", "guest": "Janardhanan Chettan", "count": 1, "status": "Listed", "source": "IMG_9148.jpeg / Left", "arrival": "House", "probability": 100.0}, {"category": "Neighbours", "guest": "Janardhanan's wife", "count": 1, "status": "Listed", "source": "IMG_9148.jpeg / Left", "arrival": "House", "probability": 100.0}, {"category": "Neighbours", "guest": "Abhidha", "count": 1, "status": "Listed", "source": "IMG_9148.jpeg / Left", "arrival": "House", "probability": 100.0}, {"category": "Neighbours", "guest": "Abhidha's son", "count": 1, "status": "Listed", "source": "IMG_9148.jpeg / Left", "arrival": "House", "probability": 100.0}, {"category": "Neighbours", "guest": "Dinu Aunty", "count": 1, "status": "Listed", "source": "IMG_9148.jpeg / Left", "arrival": "House", "probability": 100.0}, {"category": "Neighbours", "guest": "Chellamma Teacher's son", "count": 1, "status": "Listed", "source": "IMG_9148.jpeg / Left", "arrival": "House", "probability": 100.0}, {"category": "Neighbours", "guest": "Chellamma Teacher's daughter-in-law", "count": 1, "status": "Listed", "source": "IMG_9148.jpeg / Left", "arrival": "House", "probability": 100.0}, {"category": "Neighbours (Tharavad)", "guest": "Joy Chettan", "count": 1, "status": "Listed", "source": "IMG_9148.jpeg / Right", "arrival": "House", "probability": 100.0}, {"category": "Neighbours (Tharavad)", "guest": "Jayan Chettan", "count": 1, "status": "Listed", "source": "IMG_9148.jpeg / Right", "arrival": "House", "probability": 100.0}, {"category": "Neighbours (Tharavad)", "guest": "Paily Chettan", "count": 2, "status": "Listed", "source": "IMG_9148.jpeg / Right", "arrival": "House", "probability": 100.0}, {"category": "Neighbours (Tharavad)", "guest": "David", "count": 1, "status": "Listed", "source": "IMG_9148.jpeg / Right", "arrival": "House", "probability": 100.0}, {"category": "Neighbours (Tharavad)", "guest": "Sukumaran", "count": 3, "status": "Listed", "source": "IMG_9148.jpeg / Right", "arrival": "House", "probability": 100.0}, {"category": "Neighbours (Tharavad)", "guest": "Jayan Chettan", "count": 2, "status": "Listed", "source": "IMG_9148.jpeg / Right", "arrival": "House", "probability": 100.0}, {"category": "Neighbours (Tharavad)", "guest": "Vinu Chettan", "count": 2, "status": "Listed", "source": "IMG_9148.jpeg / Right", "arrival": "House", "probability": 100.0}, {"category": "Neighbours (Tharavad)", "guest": "Uma Aunty", "count": 2, "status": "Listed", "source": "IMG_9148.jpeg / Right", "arrival": "House", "probability": 100.0}, {"category": "Neighbours (Tharavad)", "guest": "Sharadha", "count": 2, "status": "Listed", "source": "IMG_9148.jpeg / Right", "arrival": "House", "probability": 100.0}, {"category": "Neighbours (Tharavad)", "guest": "Thankam", "count": 2, "status": "Listed", "source": "IMG_9148.jpeg / Right", "arrival": "House", "probability": 100.0}, {"category": "Neighbours (Tharavad)", "guest": "Anitha", "count": 2, "status": "Listed", "source": "IMG_9148.jpeg / Right", "arrival": "House", "probability": 100.0}, {"category": "Neighbours (Tharavad)", "guest": "Rajesh", "count": 1, "status": "Listed", "source": "IMG_9148.jpeg / Right", "arrival": "House", "probability": 100.0}, {"category": "Neighbours (Tharavad)", "guest": "Saji", "count": 1, "status": "Listed", "source": "IMG_9148.jpeg / Right", "arrival": "House", "probability": 100.0}, {"category": "Neighbours (Tharavad)", "guest": "Vinu", "count": 1, "status": "Listed", "source": "IMG_9148.jpeg / Right", "arrival": "House", "probability": 100.0}, {"category": "Neighbours (Tharavad)", "guest": "Biju", "count": 1, "status": "Listed", "source": "IMG_9148.jpeg / Right", "arrival": "House", "probability": 100.0}, {"category": "Neighbours (Tharavad)", "guest": "Edward", "count": 2, "status": "Listed", "source": "IMG_9148.jpeg / Right", "arrival": "House", "probability": 100.0}, {"category": "Neighbours (Tharavad)", "guest": "Jose Marotty", "count": 1, "status": "Listed", "source": "IMG_9148.jpeg / Right", "arrival": "Church", "probability": 100.0}, {"category": "Church", "guest": "Stafford", "count": 1, "status": "Listed", "source": "IMG_9148.jpeg / Bottom", "arrival": "Church", "probability": 100.0}, {"category": "Church", "guest": "Jojo", "count": 1, "status": "Listed", "source": "IMG_9148.jpeg / Bottom", "arrival": "Church", "probability": 100.0}, {"category": "Family / relatives (Shone)", "guest": "Joy Uncle", "count": 1, "status": "Listed", "source": "IMG_9149.jpeg / Numbered list", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Shone)", "guest": "Phoncy Aunty", "count": 1, "status": "Listed", "source": "IMG_9149.jpeg / Numbered list", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Shone)", "guest": "Joji Uncle", "count": 1, "status": "Listed", "source": "IMG_9149.jpeg / Numbered list", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Shone)", "guest": "Shiney Aunty", "count": 1, "status": "Listed", "source": "IMG_9149.jpeg / Numbered list", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Shone)", "guest": "Jino", "count": 1, "status": "Listed", "source": "IMG_9149.jpeg / Numbered list", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Shone)", "guest": "Viji Uncle", "count": 1, "status": "Listed", "source": "IMG_9149.jpeg / Numbered list", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Shone)", "guest": "Sonia Aunty", "count": 1, "status": "Listed", "source": "IMG_9149.jpeg / Numbered list", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Shone)", "guest": "Leo", "count": 1, "status": "Listed", "source": "IMG_9149.jpeg / Numbered list", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Shone)", "guest": "Renetta", "count": 1, "status": "Listed", "source": "IMG_9149.jpeg / Numbered list", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Shone)", "guest": "Gianna", "count": 1, "status": "Listed", "source": "IMG_9149.jpeg / Numbered list", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Shone)", "guest": "Rani Aunty", "count": 1, "status": "Listed", "source": "IMG_9149.jpeg / Numbered list", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Shone)", "guest": "Sandra", "count": 1, "status": "Listed", "source": "IMG_9149.jpeg / Numbered list", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Shone)", "guest": "Mercy Aunty", "count": 1, "status": "Listed", "source": "IMG_9149.jpeg / Numbered list", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Shone)", "guest": "Bejin", "count": 1, "status": "Listed", "source": "IMG_9149.jpeg / Numbered list", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Shone)", "guest": "Mini", "count": 1, "status": "Listed", "source": "IMG_9149.jpeg / Numbered list", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Shone)", "guest": "Christy", "count": 1, "status": "Listed", "source": "IMG_9149.jpeg / Numbered list", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Shone)", "guest": "Ibin", "count": 1, "status": "Listed", "source": "IMG_9149.jpeg / Numbered list", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Shone)", "guest": "Sari + Baby", "count": 2, "status": "Listed", "source": "IMG_9149.jpeg / Numbered list", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Shone)", "guest": "Peacetten Uncle", "count": 1, "status": "Listed", "source": "IMG_9149.jpeg / Numbered list", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Shone)", "guest": "Saramma Aunty", "count": 1, "status": "Listed", "source": "IMG_9149.jpeg / Numbered list", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Shone)", "guest": "Jerin", "count": 1, "status": "Listed", "source": "IMG_9149.jpeg / Numbered list", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Shone)", "guest": "Gia", "count": 1, "status": "Listed", "source": "IMG_9149.jpeg / Numbered list", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Shone)", "guest": "Milan", "count": 1, "status": "Listed", "source": "IMG_9149.jpeg / Numbered list", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Shone)", "guest": "Mehel", "count": 1, "status": "Listed", "source": "IMG_9149.jpeg / Numbered list", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Shone)", "guest": "Alexutty Uncle", "count": 1, "status": "Listed", "source": "IMG_9149.jpeg / Numbered list", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Shone)", "guest": "Vimmy Aunty", "count": 1, "status": "Listed", "source": "IMG_9149.jpeg / Numbered list", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Shone)", "guest": "Mary Aunty", "count": 1, "status": "Listed", "source": "IMG_9149.jpeg / Numbered list", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Shone)", "guest": "Martin Uncle", "count": 1, "status": "Listed", "source": "IMG_9149.jpeg / Numbered list", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Shone)", "guest": "Mithun", "count": 1, "status": "Listed", "source": "", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Shone)", "guest": "Milda", "count": 1, "status": "Listed", "source": "IMG_9149.jpeg / Numbered list", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Shone)", "guest": "George", "count": 1, "status": "Listed", "source": "IMG_9149.jpeg / Numbered list", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Shone)", "guest": "Risu", "count": 1, "status": "Listed", "source": "IMG_9149.jpeg / Numbered list", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Shone)", "guest": "Rosu", "count": 1, "status": "Listed", "source": "IMG_9149.jpeg / Numbered list", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Shone)", "guest": "George's parents", "count": 2, "status": "Listed", "source": "IMG_9149.jpeg / Numbered list", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Shone)", "guest": "Siju", "count": 1, "status": "Listed", "source": "IMG_9149.jpeg / Numbered list", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Shone)", "guest": "Babu Uncle", "count": 1, "status": "Listed", "source": "IMG_9150.jpeg / Numbered list", "arrival": "Church & House", "probability": 0.0}, {"category": "Family / relatives (Shone)", "guest": "Rubin", "count": 1, "status": "Listed", "source": "IMG_9150.jpeg / Numbered list", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Shone)", "guest": "Georgekutty Uncle", "count": 1, "status": "Listed", "source": "IMG_9150.jpeg / Numbered list", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Shone)", "guest": "Alphonsa Aunty", "count": 1, "status": "Listed", "source": "IMG_9150.jpeg / Numbered list", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Shone)", "guest": "Togy", "count": 1, "status": "Listed", "source": "IMG_9150.jpeg / Numbered list", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Shone)", "guest": "Soumya Chechi", "count": 1, "status": "Listed", "source": "IMG_9150.jpeg / Numbered list", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Shone)", "guest": "Haya", "count": 1, "status": "Listed", "source": "IMG_9150.jpeg / Numbered list", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Shone)", "guest": "Haron", "count": 1, "status": "Listed", "source": "IMG_9150.jpeg / Numbered list", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Shone)", "guest": "Heraldin", "count": 1, "status": "Listed", "source": "IMG_9150.jpeg / Numbered list", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Shone)", "guest": "Noel", "count": 1, "status": "Listed", "source": "IMG_9150.jpeg / Numbered list", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Shone)", "guest": "Anna", "count": 1, "status": "Listed", "source": "IMG_9150.jpeg / Numbered list", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Shone)", "guest": "Linoy", "count": 1, "status": "Listed", "source": "IMG_9150.jpeg / Numbered list", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Shone)", "guest": "Nimil", "count": 1, "status": "Listed", "source": "IMG_9150.jpeg / Numbered list", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Shone)", "guest": "Linoy's father", "count": 1, "status": "Listed", "source": "IMG_9150.jpeg / Numbered list", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Shone)", "guest": "Linoy's mother", "count": 1, "status": "Listed", "source": "IMG_9150.jpeg / Numbered list", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Simy)", "guest": "Pappa", "count": 1, "status": "Listed", "source": "IMG_9151.jpeg / Left", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Simy)", "guest": "Mummy", "count": 1, "status": "Listed", "source": "IMG_9151.jpeg / Left", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Simy)", "guest": "Chechi", "count": 1, "status": "Listed", "source": "IMG_9151.jpeg / Left", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Simy)", "guest": "Chettai", "count": 1, "status": "Listed", "source": "IMG_9151.jpeg / Left", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Simy)", "guest": "Jordan", "count": 1, "status": "Listed", "source": "IMG_9151.jpeg / Left", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Simy)", "guest": "Jonu", "count": 1, "status": "Listed", "source": "IMG_9151.jpeg / Left", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Simy)", "guest": "Sudhi Chettan", "count": 1, "status": "Listed", "source": "IMG_9151.jpeg / Left", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Simy)", "guest": "Wels Chettan", "count": 2, "status": "Listed", "source": "IMG_9151.jpeg / Left", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Simy)", "guest": "Melly Chettan", "count": 2, "status": "Listed", "source": "IMG_9151.jpeg / Left", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Simy)", "guest": "Valyammachi", "count": 1, "status": "Listed", "source": "IMG_9151.jpeg / Left", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Simy)", "guest": "Tony Chettan", "count": 0, "status": "Listed", "source": "IMG_9151.jpeg / Left", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Simy)", "guest": "Sony Chettan", "count": 2, "status": "Listed", "source": "IMG_9151.jpeg / Left", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Simy)", "guest": "Rolins Chettan", "count": 7, "status": "Listed", "source": "IMG_9151.jpeg / Left", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Simy)", "guest": "Tins Ettan", "count": 2, "status": "Listed", "source": "IMG_9151.jpeg / Left", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Simy)", "guest": "Valsan Chettan", "count": 2, "status": "Listed", "source": "IMG_9151.jpeg / Left", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Simy)", "guest": "Jos Ettan", "count": 2, "status": "Listed", "source": "IMG_9151.jpeg / Left", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Simy)", "guest": "Tenson Chettan", "count": 2, "status": "Listed", "source": "IMG_9151.jpeg / Left", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Simy)", "guest": "Wincy Chechi", "count": 2, "status": "Listed", "source": "IMG_9151.jpeg / Left", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Simy)", "guest": "Chikku", "count": 0, "status": "Listed", "source": "IMG_9151.jpeg / Left", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Simy)", "guest": "Pradeesh Chettan", "count": 2, "status": "Listed", "source": "IMG_9151.jpeg / Left", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Simy)", "guest": "Sony Karumanoor", "count": 1, "status": "Listed", "source": "IMG_9151.jpeg / Left", "arrival": "Church & House", "probability": 100.0}, {"category": "Family / relatives (Thevara)", "guest": "Babychen Chettan", "count": 2, "status": "Listed", "source": "IMG_9151.jpeg / Right", "arrival": "Church & House", "probability": 100.0}]</script>
+<script>
+const get=id=>document.getElementById(id);
+const initial=JSON.parse(get('initial').textContent);
+const key='anniversary-guest-dashboard:additions:v1';
+let additions=[];
+try { const saved=JSON.parse(localStorage.getItem(key)||'[]'); if(Array.isArray(saved)) additions=saved; } catch {}
+const editKey='anniversary-guest-dashboard:edits:v1';
+let edits={}, editing=null;
+try{edits=JSON.parse(localStorage.getItem(editKey)||'{}')||{};}catch{}
+const read=(key,fallback)=>{try{return JSON.parse(localStorage.getItem(key))??fallback;}catch{return fallback;}};
+const journalKey='anniversary-guest-dashboard:journal:v1', eventKey='anniversary-guest-dashboard:event:v1';
+let journal=read(journalKey,[]), eventInfo=read(eventKey,{}), undoAction=null, toastTimer;
+const selectedRows=new Set();
+let visibleRows=[],inlineIndex=null;
+const rsvps=['Unrecorded','Pending','Confirmed','Declined'];
+function toast(message,undo=null){
+ clearTimeout(toastTimer);undoAction=undo;get('toast-message').textContent=message;
+ get('undo').hidden=!undo;get('toast').hidden=false;
+ toastTimer=setTimeout(()=>{get('toast').hidden=true;},undo?10000:5000);
+}
+function activity(message){
+ const next=[{message,date:new Date().toISOString()},...journal].slice(0,30);
+ try{localStorage.setItem(journalKey,JSON.stringify(next));journal=next;}catch{}
+}
+function changeRows(patches,message){
+ const previous=edits,next={...edits};
+ for(const [index,patch] of patches)next[index]={...next[index],...patch};
+ try{localStorage.setItem(editKey,JSON.stringify(next));}catch{toast('Changes could not be saved.');return false;}
+ edits=next;activity(message);draw();
+ toast(message,()=>{
+  try{localStorage.setItem(editKey,JSON.stringify(previous));}catch{toast('Undo could not be saved.');return;}
+  edits=previous;activity('Undid: '+message);draw();toast('Change undone.');
+ });
+ return true;
+}
+get('undo').addEventListener('click',()=>undoAction?.());
+get('toast-close').addEventListener('click',()=>{get('toast').hidden=true;});
+function setTheme(theme){
+ document.documentElement.dataset.theme=theme;
+ get('theme').setAttribute('aria-label','Switch to '+(theme==='dark'?'light':'dark')+' theme');
+}
+setTheme(read('anniversary-theme','dark')==='light'?'light':'dark');
+get('theme').addEventListener('click',()=>{
+ const theme=document.documentElement.dataset.theme==='dark'?'light':'dark';setTheme(theme);
+ try{localStorage.setItem('anniversary-theme',JSON.stringify(theme));}catch{}
+});
+function setCompact(compact){
+ get('shell').classList.toggle('compact',compact);get('collapse').setAttribute('aria-pressed',String(compact));
+}
+setCompact(read('anniversary-sidebar',false));
+get('collapse').addEventListener('click',()=>{
+ const compact=!get('shell').classList.contains('compact');setCompact(compact);
+ try{localStorage.setItem('anniversary-sidebar',JSON.stringify(compact));}catch{}
+});
+const all=()=>[...initial,...additions].map((row,index)=>({probability:100,rsvp:'Unrecorded',checked:0,...row,...edits[index],index})).filter(row=>!row.removed);
+const numberFormat=new Intl.NumberFormat(undefined,{maximumFractionDigits:2});
+const colors=['#ad9bea','#65c4aa','#d8a467','#7ab6e3','#d887aa'];
+function element(tag,value,cls){const node=document.createElement(tag);if(value!==undefined)node.textContent=value;if(cls)node.className=cls;return node;}
+function totals(rows,field){
+ const map=new Map();
+ for(const row of rows){const label=row[field]||'Unspecified';map.set(label,(map.get(label)||0)+row.count);}
+ return [...map].sort((a,b)=>b[1]-a[1]);
+}
+const categoryColors=new Map();
+function categoryColor(category){
+ if(!categoryColors.has(category))categoryColors.set(category,categoryColors.size);
+ const index=categoryColors.get(category);
+ return [...colors,'#be185d','#0e7490','#4d7c0f'][index%8];
+}
+function drawBars(id,data,paint){
+ const max=Math.max(1,...data.map(([,n])=>n));
+ get(id).replaceChildren(...data.map(([label,count])=>{
+  const row=element('div',undefined,'chartrow'),track=element('div',undefined,'track'),fill=element('div',undefined,'fill');
+  fill.style.width=(100*count/max)+'%';fill.style.background=paint(label);track.append(fill);
+  row.append(element('span',label),track,element('strong',count,'num'));return row;
+ }));
+}
+function draw(){
+ const guests=all(), categories=totals(guests,'category'), arrivals=totals(guests,'arrival');
+ const total=guests.reduce((sum,row)=>sum+row.count,0);
+ const headcount=status=>guests.filter(r=>r.rsvp===status).reduce((sum,r)=>sum+r.count,0);
+ const confirmed=headcount('Confirmed');
+ get('expected').textContent=numberFormat.format(guests.reduce((sum,r)=>sum+r.count*r.probability/100,0));
+ get('confirmed').textContent=confirmed;
+ get('pending').textContent=guests.filter(r=>r.rsvp==='Pending').length;
+ get('declined').textContent=headcount('Declined');
+ get('checked').textContent=guests.reduce((sum,r)=>sum+r.checked,0);
+ get('capacity').textContent=eventInfo.capacity?eventInfo.capacity-confirmed:'—';
+ const date=eventInfo.date?new Date(eventInfo.date+'T12:00:00').toLocaleDateString(undefined,{dateStyle:'medium'}):'Date unset';
+ get('event-line').textContent=[date,eventInfo.venue||'Venue unset',eventInfo.capacity?'Capacity '+eventInfo.capacity:null].filter(Boolean).join(' · ');
+ drawBars('rsvp-bars',rsvps.map(status=>[status,headcount(status)]),()=> '#ad9bea');
+ get('activity').replaceChildren(...(journal.length?journal.slice(0,4).map(item=>{
+  const li=element('li'),time=element('time',new Date(item.date).toLocaleDateString(undefined,{month:'short',day:'numeric'}));
+  time.dateTime=item.date;li.append(element('span',item.message),time);return li;
+ }):[element('li','Guest activity appears here after your first change.')]));
+
+ get('total').textContent=total;get('ringTotal').textContent=total;get('entries').textContent=guests.length;get('groups').textContent=categories.length+' categories';
+ drawBars('bars',categories,categoryColor);
+ drawBars('venue',['Church','House'].map(venue=>[venue,guests.filter(r=>r.arrival===venue||r.arrival==='Church & House').reduce((sum,r)=>sum+r.count,0)]),()=> '#047857');
+ const sizes=['1 guest','2 guests','3 guests','4+ guests'];
+ drawBars('sizes',sizes.map((label,i)=>[label,guests.filter(r=>i===3?r.count>=4:r.count===i+1).length]),()=> '#2563eb');
+ const selected=get('filter').value;
+ const any=element('option','All categories');any.value='';
+ get('filter').replaceChildren(any,...categories.map(([category])=>element('option',category)));
+ get('filter').value=categories.some(([label])=>label===selected)?selected:'';
+ let position=0;
+ const segments=arrivals.map(([,count],i)=>{const start=position;position+=100*count/(total||1);return colors[i%colors.length]+' '+start+'% '+position+'%';});
+ get('ring').style.background=total?'conic-gradient('+segments.join(',')+')':'#eef0f6';
+ get('legend').replaceChildren(...arrivals.map(([label,count],i)=>{
+  const item=element('li'),dot=element('span',undefined,'dot');dot.style.background=colors[i%colors.length];item.append(dot,element('span',label),element('strong',count));return item;
+ }));
+ get('categories').replaceChildren(...categories.map(([category])=>element('option',category)));
+ renderRows();
+}
+function renderRows(){
+ const query=get('search').value.trim().toLowerCase();
+ const filter=get('filter').value;
+ const rsvp=get('rsvp-filter').value, sort=get('sort').value, invitation=get('invited-filter').value;
+ const invitationState=r=>r.invitation==='Sent'?'yes':r.invitation==='To send'?'no':'unknown';
+ const rows=all().filter(r=>(!filter||r.category===filter)&&(!rsvp||r.rsvp===rsvp)&&(!invitation||invitationState(r)===invitation)&&[r.guest,r.category,r.arrival,r.email||'',r.table||''].some(value=>value.toLowerCase().includes(query)));
+ const sorts={name:(a,b)=>a.guest.localeCompare(b.guest),rsvp:(a,b)=>a.rsvp.localeCompare(b.rsvp),recent:(a,b)=>(b.created||'').localeCompare(a.created||''),size:(a,b)=>b.count-a.count};
+ if(sorts[sort])rows.sort(sorts[sort]);
+ visibleRows=rows;syncSelection();
+ get('rows').replaceChildren(...rows.flatMap(row=>{
+  const tr=element('tr'),category=element('td'),chip=element('span',undefined,'chip'),dot=element('span',undefined,'dot');
+  dot.style.background=categoryColor(row.category);
+  chip.append(dot,element('span',row.category));category.append(chip);
+  const action=element('td'),edit=element('button','Edit','edit');
+  edit.type='button';edit.setAttribute('aria-label','Edit '+row.guest);
+  const buttons=element('div',undefined,'guest-actions');
+  const toggle=()=>{inlineIndex=inlineIndex===row.index?null:row.index;renderRows();if(inlineIndex!==null)get('inline-guest').elements.guest.focus();};
+  edit.setAttribute('aria-expanded',String(inlineIndex===row.index));
+  edit.addEventListener('click',toggle);buttons.append(edit);
+  const confirm=element('button','Confirm','edit');confirm.type='button';
+  confirm.disabled=row.rsvp==='Confirmed'&&row.probability===100;
+  confirm.addEventListener('click',()=>changeRows([[row.index,{rsvp:'Confirmed',probability:100}]],'Confirmed '+row.guest));
+  const invited=element('button','Invited','edit');invited.type='button';
+  invited.disabled=row.invitation==='Sent';
+  invited.addEventListener('click',()=>changeRows([[row.index,{invitation:'Sent'}]],'Marked invited: '+row.guest));
+  buttons.append(invited,confirm);
+  const denied=element('button','Denied','edit danger');denied.type='button';
+  denied.disabled=row.rsvp==='Declined'&&row.probability===0;
+  denied.addEventListener('click',()=>changeRows([[row.index,{rsvp:'Declined',probability:0}]],'Marked declined: '+row.guest));
+  buttons.append(denied);action.append(buttons);
+  const person=element('td'),pick=element('input'),name=element('button',row.guest,'name-button');
+  pick.type='checkbox';pick.checked=selectedRows.has(row.index);pick.setAttribute('aria-label','Select '+row.guest);
+  pick.addEventListener('change',()=>{pick.checked?selectedRows.add(row.index):selectedRows.delete(row.index);syncSelection();});
+  name.type='button';name.addEventListener('click',toggle);person.append(pick,name);
+  const status=element('td'),badge=element('span',row.rsvp,'chip');badge.dataset.rsvp=row.rsvp;status.append(badge);
+  const quick=element('button','Attended','edit');quick.type='button';quick.disabled=!row.count||row.checked===row.count;quick.setAttribute("aria-pressed",String(!!row.count&&row.checked===row.count));
+  quick.addEventListener('click',()=>changeRows([[row.index,{checked:row.count}]],'Marked attended: '+row.guest));buttons.append(quick);
+  const arrival=element('td',row.arrival),size=element('td',row.count,'num'),prob=element('td',numberFormat.format(row.probability)+'%','num');
+  arrival.dataset.label='Arrival';size.dataset.label='Guests';prob.dataset.label='Chance';
+  const invitationLabel={yes:'Invited',no:'Not invited',unknown:'Invitation unrecorded'}[invitationState(row)];
+  status.append(element('div',invitationLabel,'muted'));
+  tr.append(person,category,arrival,size,prob,status,action);
+  return inlineIndex===row.index?[tr,inlineEditor(row)]:[tr];
+ }));
+ if(!rows.length){const tr=element('tr'),td=element('td','No matching guests');td.colSpan=7;tr.append(td);get('rows').append(tr);}
+}
+function inlineEditor(row){
+ const tr=element('tr',undefined,'inline-row'),cell=element('td');cell.colSpan=7;tr.append(cell);
+ const form=get('form').cloneNode(true);form.id='inline-guest';form.className='inline-form';
+ const group=form.querySelector('.form-pair');group.replaceWith(...group.children);
+ const pairs=[...form.querySelectorAll('.form-pair')];pairs.forEach(pair=>pair.replaceWith(...pair.children));
+ form.querySelector('datalist').remove();
+ const arrival=form.querySelector('[name=arrival]');arrival.removeAttribute('id');arrival.replaceChildren(...arrivalOptions());
+ form.querySelector('textarea').closest('label').classList.add('notes');
+ const error=form.querySelector('[role=alert]');error.removeAttribute('id');error.hidden=true;
+ const cancel=form.querySelector('#cancel'),remove=form.querySelector('#remove'),save=form.querySelector('#saveGuest');
+ [cancel,remove,save].forEach(button=>button.removeAttribute('id'));
+ cancel.addEventListener('click',()=>{inlineIndex=null;renderRows();});
+ remove.hidden=false;remove.addEventListener('click',()=>askRemove(row));
+ save.textContent='Save changes';
+ form.elements.count.min=0;
+ for(const control of form.elements)if(control.name&&row[control.name]!==undefined)control.value=row[control.name];
+ form.addEventListener('submit',event=>{
+  event.preventDefault();
+  const details=guestDetails(form,row,error);if(!details)return;
+  inlineIndex=null;
+  if(!changeRows([[row.index,details]],details.guest+' updated'))inlineIndex=row.index;
+ });
+ cell.append(form);return tr;
+}
+function syncSelection(){
+ const selected=visibleRows.filter(row=>selectedRows.has(row.index));
+ const pick=get('select-visible');pick.checked=!!visibleRows.length&&selected.length===visibleRows.length;
+ pick.indeterminate=selected.length>0&&selected.length<visibleRows.length;
+ get('bulk-confirm').disabled=!selected.length;
+ get('bulk-check').disabled=!selected.some(row=>row.count>row.checked);
+ get('result-count').textContent=visibleRows.length+' entries'+(selected.length?' · '+selected.length+' selected':'');
+}
+get('select-visible').addEventListener('change',event=>{
+ for(const row of visibleRows)event.target.checked?selectedRows.add(row.index):selectedRows.delete(row.index);
+ renderRows();
+});
+function bulk(makePatch,label){
+ const patches=visibleRows.filter(row=>selectedRows.has(row.index)).map(makePatch).filter(Boolean);
+ if(patches.length&&changeRows(patches,label+' '+patches.length+' entries')){selectedRows.clear();renderRows();}
+}
+get('bulk-confirm').addEventListener('click',()=>bulk(row=>[row.index,{rsvp:'Confirmed',probability:100}],'Confirmed'));
+get('bulk-check').addEventListener('click',()=>bulk(row=>row.count>row.checked?[row.index,{checked:row.count}]:null,'Marked attended'));
+for(const id of ['sort','rsvp-filter','invited-filter'])get(id).addEventListener('change',renderRows);
+get('search').addEventListener('input',renderRows);
+document.addEventListener('keydown',event=>{
+ if((event.ctrlKey||event.metaKey)&&event.key.toLowerCase()==='k'&&!document.querySelector('dialog[open]')){
+  event.preventDefault();switchTab(1);get('search').focus();
+ }
+});
+get('filter').addEventListener('change',renderRows);
+const tabs=['overview-tab','list-tab','menu-tab'].map(get);
+const panels=['overview','list-panel','menu-panel'];
+function switchTab(index){
+ get('crumb').textContent=['Overview','Guest list','Food menu'][index];
+ tabs.forEach((tab,i)=>{
+  const active=i===index;
+  tab.setAttribute('aria-selected',String(active));tab.tabIndex=active?0:-1;
+  get(panels[i]).hidden=!active;
+ });
+}
+tabs.forEach((tab,index)=>{
+ tab.addEventListener('click',()=>switchTab(index));
+ tab.addEventListener('keydown',event=>{
+  const target={ArrowLeft:(index+tabs.length-1)%tabs.length,ArrowRight:(index+1)%tabs.length,Home:0,End:tabs.length-1}[event.key];
+  if(target===undefined)return;
+  event.preventDefault();switchTab(target);tabs[target].focus();
+ });
+});
+function arrivalOptions(){
+ const locations=[...new Set([...all().map(row=>row.arrival),'Church','Church & House','House'].filter(Boolean))].sort();
+ return locations.map(location=>element('option',location));
+}
+function openGuest(row){
+ get('form').reset();get('error').hidden=true;
+ get('arrival').replaceChildren(...arrivalOptions());
+ editing=row??null;
+ get('formTitle').textContent=row?'Edit guest':'Add guest';
+ get('saveGuest').textContent=row?'Save changes':'Add guest';
+ const controls=get('form').elements;
+ controls.count.min=row?0:1;get('remove').hidden=!row;
+ if(row){
+  controls.guest.value=row.guest;controls.category.value=row.category;
+  controls.count.value=row.count;controls.arrival.value=row.arrival;controls.probability.value=row.probability;
+  for(const field of ['rsvp','invitation','email','phone','table','checked','notes'])if(row[field]!==undefined)controls[field].value=row[field];
+ }
+ get('modal').showModal();
+}
+get('add').addEventListener('click',()=>openGuest());
+get('cancel').addEventListener('click',()=>get('modal').close());
+function guestDetails(form,editing,error){
+ const fields=new FormData(form),guest=fields.get('guest').trim(), category=fields.get('category').trim(),count=Number(fields.get('count'));
+ if(!guest||!category){error.textContent='Enter a guest name and category.';error.hidden=false;return;}
+ const probability=Number(fields.get('probability'));
+ if(!Number.isFinite(probability)||probability<0||probability>100){error.textContent='Enter a probability from 0 to 100.';error.hidden=false;return;}
+ const checked=Number(fields.get('checked')||0);
+ if(!Number.isInteger(count)||count<(editing?0:1)||!Number.isInteger(checked)||checked<0||checked>count){
+  error.textContent='Checked-in guests must be between zero and the party size.';error.hidden=false;return;
+ }
+ if((!editing||guest.toLowerCase()!==editing.guest.toLowerCase()||category.toLowerCase()!==editing.category.toLowerCase())&&all().some(r=>r.index!==editing?.index&&r.guest.toLowerCase()===guest.toLowerCase()&&r.category.toLowerCase()===category.toLowerCase())){
+  error.textContent='An entry with this name and category already exists. Edit the existing entry or add a distinguishing detail.';error.hidden=false;return;
+ }
+ const details={guest,category,count,probability,checked,arrival:fields.get('arrival')};
+ for(const field of ['rsvp','invitation','email','phone','table','notes'])details[field]=fields.get(field).trim();
+
+ return details;
+}
+get('form').addEventListener('submit',event=>{
+ event.preventDefault();
+ const details=guestDetails(event.currentTarget,editing,get('error'));if(!details)return;
+ const {guest}=details;
+ if(editing){
+  const changes=[];
+  if(editing.rsvp!==details.rsvp)changes.push('RSVP '+details.rsvp.toLowerCase());
+  if(editing.checked!==details.checked)changes.push('check-in '+details.checked+'/'+details.count);
+  if(!changeRows([[editing.index,details]],guest+(changes.length?' · '+changes.join(', '):' updated')))return;
+ }else{
+  const next=[...additions,{...details,status:'Listed',source:'Added in dashboard',created:new Date().toISOString()}];
+  try{localStorage.setItem(key,JSON.stringify(next));}catch{error.textContent='This browser could not save the guest.';error.hidden=false;return;}
+  additions=next;activity('Added '+guest);draw();toast('Added '+guest);
+ }
+ get('modal').close();get('notice').textContent=guest+(editing?' updated.':' added.');
+
+});
+let removing;
+function askRemove(row){
+ if(!row)return;
+ removing=row;get('remove-copy').textContent='Remove '+row.guest+' from this event?';
+ get('remove-dialog').showModal();
+}
+get('remove').addEventListener('click',()=>askRemove(editing));
+get('keep').addEventListener('click',()=>get('remove-dialog').close());
+get('remove-confirm').addEventListener('click',()=>{
+ if(changeRows([[removing.index,{removed:true}]],'Removed '+removing.guest)){inlineIndex=null;get('remove-dialog').close();if(get('modal').open)get('modal').close();}
+});
+get('event-edit').addEventListener('click',()=>{
+ const fields=get('event-form').elements;
+ for(const field of ['date','venue','capacity'])fields[field].value=eventInfo[field]??'';
+ get('event-error').hidden=true;get('event-dialog').showModal();
+});
+get('event-cancel').addEventListener('click',()=>get('event-dialog').close());
+get('event-form').addEventListener('submit',event=>{
+ event.preventDefault();
+ const fields=new FormData(event.currentTarget);
+ const next={date:fields.get('date'),venue:fields.get('venue').trim(),capacity:Number(fields.get('capacity')||0)};
+ try{localStorage.setItem(eventKey,JSON.stringify(next));}catch{const error=get('event-error');error.textContent='Event details could not be saved.';error.hidden=false;return;}
+ eventInfo=next;activity('Updated event details');draw();get('event-dialog').close();toast('Event details saved.');
+});
+get('export').addEventListener('click',()=>{
+ const quote=value=>{let text=String(value??'');if(/^\s*[=+@-]/.test(text))text="'"+text;return '"'+text.replaceAll('"','""')+'"';};
+ const lines=[['Category','Guest or household','Guest count','Status','Source photo / section','Location Of Arrival','Probability','RSVP','Invitation','Checked in','Email','Phone','Table','Notes'],...all().map(r=>[r.category,r.guest,r.count,r.status,r.source,r.arrival,r.probability,r.rsvp,r.invitation,r.checked,r.email,r.phone,r.table,r.notes])];
+ const url=URL.createObjectURL(new Blob(['\uFEFF'+lines.map(row=>row.map(quote).join(',')).join('\r\n')],{type:'text/csv;charset=utf-8'}));
+ const link=element('a');link.href=url;link.download='Anniversary Guest List.csv';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+});
+const menuKey='anniversary-guest-dashboard:menu:v1';
+const menuCards=[...get('menu-panel').querySelectorAll('.menu-card')];
+const menuLists=menuCards.map(card=>card.querySelector('ul'));
+const originalMenu=menuLists.map(list=>[...list.children].map(item=>item.textContent));
+let menu=read(menuKey,originalMenu),dishPosition;
+const groupKey='anniversary-guest-dashboard:menu-groups:v1';
+const groupHeadings=menuCards.map(card=>card.querySelector('h3'));
+let groupNames=read(groupKey,groupHeadings.map(heading=>heading.textContent)),groupIndex;
+const groupDialog=get('group-dialog'),groupForm=get('group-form');
+get('group-cancel').addEventListener('click',()=>groupDialog.close());
+groupForm.elements.title.addEventListener('input',event=>event.target.setCustomValidity(''));
+groupForm.addEventListener('submit',event=>{
+ event.preventDefault();
+ const input=groupForm.elements.title,title=input.value.trim();
+ if(!title){input.setCustomValidity('Enter a group name.');input.reportValidity();return;}
+ const next=[...groupNames];next[groupIndex??next.length]=title;
+ try{localStorage.setItem(groupKey,JSON.stringify(next));}
+ catch{toast('The group name could not be saved.');return;}
+ groupNames=next;drawMenu();groupDialog.close();toast(groupIndex===undefined?'Group added.':'Group renamed.');
+});
+const dishForm=get('dish-form'),dishDialog=get('dish-dialog');
+function storeMenu(next,message){
+ const previous=menu;
+ try{localStorage.setItem(menuKey,JSON.stringify(next));}
+ catch{toast('The menu could not be saved.');return false;}
+ menu=next;drawMenu();
+ toast(message,()=>{
+  try{localStorage.setItem(menuKey,JSON.stringify(previous));}
+  catch{toast('Undo could not be saved.');return;}
+  menu=previous;drawMenu();toast('Menu change undone.');
+ });
+ return true;
+}
+function openDish(group,index){
+ dishPosition={group,index};
+ const editing=index!==undefined;
+ get('dish-title').textContent=editing?'Edit dish':'Add dish';
+ get('dish-remove').hidden=!editing;
+ get('dish-error').hidden=true;
+ dishForm.elements.dish.value=editing?menu[group][index]:'';
+ dishForm.elements.group.value=String(group);
+ dishDialog.showModal();
+}
+function menuButton(label,accessibleName,action){
+ const button=element('button',label);button.type='button';
+ button.setAttribute('aria-label',accessibleName);
+ button.addEventListener('click',action);return button;
+}
+get('add-group').addEventListener('click',()=>openGroup());
+function openGroup(index){
+ groupIndex=index;
+ get('group-title').textContent=index===undefined?'Add menu group':'Rename menu group';
+ const input=groupForm.elements.title;
+ input.setCustomValidity('');input.value=groupNames[index]??'';
+ groupDialog.showModal();
+}
+function drawMenu(){
+ while(menuCards.length<groupNames.length){
+  const card=element('article',undefined,'card menu-card'),heading=element('h3'),list=element('ul');
+  card.append(heading,list);get('menu-panel').querySelector('.menu-grid').append(card);
+  const index=menuCards.length;
+  menuCards.push(card);menuLists.push(list);groupHeadings.push(heading);
+  mountGroup(card,index);
+ }
+ while(menu.length<groupNames.length)menu.push([]);
+ dishForm.elements.group.replaceChildren(...groupNames.map((name,index)=>{
+  const option=element('option',name);option.value=String(index);return option;
+ }));
+ groupHeadings.forEach((heading,index)=>{
+  heading.textContent=groupNames[index];
+  get('dish-form').elements.group.options[index].textContent=groupNames[index];
+  get('menu-add-'+index).setAttribute('aria-label','Add dish to '+groupNames[index]);
+  get('menu-rename-'+index).setAttribute('aria-label','Rename '+groupNames[index]);
+ });
+ menuLists.forEach((list,group)=>{
+  list.replaceChildren(...menu[group].map((dish,index)=>{
+   const item=element('li'),actions=element('div',undefined,'menu-actions');
+   for(const [delta,label,direction] of [[-1,'↑','up'],[1,'↓','down']]){
+    const move=menuButton(label,'Move '+dish+' '+direction,()=>{
+     const next=menu.map(items=>[...items]),target=index+delta;
+     [next[group][index],next[group][target]]=[next[group][target],next[group][index]];
+     if(storeMenu(next,'Dish reordered.')){
+      const buttons=menuLists[group].children[target].querySelectorAll('button');
+      const button=buttons[delta<0?0:1];
+      (button.disabled?buttons[2]:button).focus();
+     }
+    });
+    move.disabled=index+delta<0||index+delta>=menu[group].length;actions.append(move);
+   }
+   actions.append(menuButton('Edit','Edit '+dish,()=>openDish(group,index)));
+   if(groupNames.length>2){
+    actions.append(menuButton('Move','Move '+dish+' to another group',()=>{
+     openDish(group,index);dishForm.elements.group.focus();
+    }));
+   }else actions.append(menuButton('Move','Move '+dish+' to '+groupNames[1-group],()=>{
+    const next=menu.map(items=>[...items]);
+    next[group].splice(index,1);next[1-group].push(dish);
+    if(storeMenu(next,'Dish moved to '+groupNames[1-group]+'.'))menuLists[1-group].lastElementChild.querySelector('button:last-child').focus();
+   }));
+   item.append(element('span',dish),actions);return item;
+  }));
+ });
+}
+function mountGroup(card,group){
+ const heading=card.querySelector('h3'),header=element('header');
+ const actions=element('div',undefined,'menu-actions');
+ const add=menuButton('+ Add dish','Add dish',()=>openDish(group));add.id='menu-add-'+group;
+ const rename=menuButton('Rename','Rename group',()=>openGroup(group));rename.id='menu-rename-'+group;
+ actions.append(rename,add);
+ heading.before(header);header.append(heading,actions);
+}
+menuCards.forEach(mountGroup);
+get('dish-cancel').addEventListener('click',()=>dishDialog.close());
+get('dish-remove').addEventListener('click',()=>{
+ const {group,index}=dishPosition,next=menu.map(items=>[...items]);
+ next[group].splice(index,1);
+ if(storeMenu(next,'Dish removed.'))dishDialog.close();
+});
+dishForm.addEventListener('submit',event=>{
+ event.preventDefault();
+ const dish=dishForm.elements.dish.value.trim(),group=Number(dishForm.elements.group.value);
+ if(!dish){
+  const error=get('dish-error');error.textContent='Enter a dish name.';error.hidden=false;
+  dishForm.elements.dish.focus();return;
+ }
+ const next=menu.map(items=>[...items]),original=dishPosition;
+ if(original.index!==undefined&&group===original.group)next[group][original.index]=dish;
+ else{
+  if(original.index!==undefined)next[original.group].splice(original.index,1);
+  next[group].push(dish);
+ }
+ if(storeMenu(next,original.index===undefined?'Dish added.':group===original.group?'Dish updated.':'Dish moved.'))dishDialog.close();
+});
+drawMenu();
+
+draw();
+</script></html>
+
+
+
+
+
